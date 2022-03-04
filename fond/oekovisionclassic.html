@@ -1,0 +1,109 @@
+<!DOCTYPE HTML>
+<!--
+	Editorial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+<head>
+    <title>ÖkoWorld ÖkoVision Classic Entwicklung</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="../assets/css/main.css" />
+</head>
+<body class="is-preload" onload="init()">
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+    <!-- Main -->
+    <div id="main">
+        <div class="inner">
+
+            <!-- Content -->
+            <section>
+                <div id="price">Aktueller Preis:</div>
+                <div id="test" style="visibility:hidden;">
+                    <form id="investmentCal">
+                        <label for="investment">Betrag</label>
+                        <input type="number" id="investment" name="investment" placeholder="0" min="0" required>
+                        <button id="calcBtn" type="button" onclick="calculateCurrentWorth()">berechnen</button>
+                    </form>
+                </div>
+                <div id="result"></div>
+                <div id="increase"></div>
+            </section>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- Scripts -->
+<script src="../assets/js/jquery.min.js"></script>
+<script src="../assets/js/browser.min.js"></script>
+<script src="../assets/js/breakpoints.min.js"></script>
+<script src="../assets/js/util.js"></script>
+<script src="../assets/js/main.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    var currentValue;
+
+    function initEventListener() {
+        // Get the input field
+        var input = document.getElementById("investment");
+
+        // Execute a function when the user releases a key on the keyboard
+        input.addEventListener("keyup", function (event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.keyCode === 13) {
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Trigger the button element with a click
+                document.getElementById("calcBtn").click();
+            }
+        });
+    }
+
+    function calculateCurrentWorth() {
+        var result, investment, fees;
+        //console.log("currentValue: " + currentValue);
+        investment = document.getElementById('investment').value;
+        fees = investment * 0.05;
+        //console.log(fees);
+        //console.log(investment - fees);
+        result = ((investment - fees)/219.91) * currentValue;
+        document.getElementById('result').innerHTML = "Aktueller Wert: " + result.toFixed(2)+"€";
+        document.getElementById('increase').innerHTML = "Gewinn: " + (result-investment).toFixed(2)+"€";
+
+    }
+
+    function getCurrentPrice() {
+        const settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/v2/get-quotes?region=DE&symbols=OE7A.F",
+            "method": "GET",
+            "headers": {
+                "x-rapidapi-key": "620a665425msh47c1a91caca8c41p11f48bjsn8bc38d113262",
+                "x-rapidapi-host": "apidojo-yahoo-finance-v1.p.rapidapi.com"
+            }
+        };
+
+
+        $.ajax(settings).done(function (response) {
+            //console.log(response);
+            //console.log(response.quoteResponse.result[0].regularMarketPrice);
+            currentValue = response.quoteResponse.result[0].regularMarketPrice;
+            document.getElementById('price').innerHTML = "Aktueller Preis: " + currentValue + "€";
+            document.getElementById('test').setAttribute("style", "visibility: visible;");
+        });
+    }
+
+    function init() {
+        getCurrentPrice();
+        initEventListener();
+    }
+</script>
+</body>
+</html>
