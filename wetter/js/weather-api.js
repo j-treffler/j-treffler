@@ -35,16 +35,21 @@ function evaluate(clouds1h, clouds2h, time, sunset, sunrise, sunriseTomorrow){
         colour.innerHTML = "<img src='images/rot.png' alt='rot'/>"; // source: https://commons.wikimedia.org/wiki/File:Traffic_lights_4_states_1.png
         colourDes.innerHTML = "Es ist Nacht, Sonne gibts erst wieder in " + sunriseTime + " Stunden.  Waschmaschine, Trockner und Spülmaschine lieber nach Sonnenaufgang laufen lassen.";
     }else {
-        if (clouds1h < 40 && clouds2h < 40) {
-            // little clouds for the next 2h
-            colour.innerHTML = "<img src='images/gruen.png' alt='grün'/>"; // source: https://upload.wikimedia.org/wikipedia/commons/a/ae/Traffic_lights_4_states_3.png
-            colourDes.innerHTML ="Die nächsten 2 Stunden schauts gut aus. Waschmaschine, Trockner und Spülmaschine sollten kein Problem sein.";
-        }else if (clouds1h < 40 || clouds2h < 40) {
+        if(time > sunset - 7200){
             colour.innerHTML = "<img src='images/gelb.png' alt='gelb'/>"; // source: https://upload.wikimedia.org/wikipedia/commons/3/3b/Traffic_lights_4_states_4.png
             colourDes.innerHTML ="Teilweise sonnig in den nächsten 2 Stunden.  Lieber nicht die Waschmaschine, Trockner und Spülmaschine gleichzeitig laufen lassen.";
         }else{
-            colour.innerHTML = "<img src='images/rot.png' alt='rot'/>"; // source: https://commons.wikimedia.org/wiki/File:Traffic_lights_4_states_1.png
-            colourDes.innerHTML ="Wenig bis keine Sonne in den 2 Stunden. Lieber nicht die Waschmaschine, Trockner und Spülmaschine laufen lassen.";
+            if (clouds1h < 40 && clouds2h < 40) {
+                // little clouds for the next 2h
+                colour.innerHTML = "<img src='images/gruen.png' alt='grün'/>"; // source: https://upload.wikimedia.org/wikipedia/commons/a/ae/Traffic_lights_4_states_3.png
+                colourDes.innerHTML ="Die nächsten 2 Stunden schauts gut aus. Waschmaschine, Trockner und Spülmaschine sollten kein Problem sein.";
+            }else if (clouds1h < 40 || clouds2h < 40) {
+                colour.innerHTML = "<img src='images/gelb.png' alt='gelb'/>"; // source: https://upload.wikimedia.org/wikipedia/commons/3/3b/Traffic_lights_4_states_4.png
+                colourDes.innerHTML ="Teilweise sonnig in den nächsten 2 Stunden.  Lieber nicht die Waschmaschine, Trockner und Spülmaschine gleichzeitig laufen lassen.";
+            }else{
+                colour.innerHTML = "<img src='images/rot.png' alt='rot'/>"; // source: https://commons.wikimedia.org/wiki/File:Traffic_lights_4_states_1.png
+                colourDes.innerHTML ="Wenig bis keine Sonne in den 2 Stunden. Lieber nicht die Waschmaschine, Trockner und Spülmaschine laufen lassen.";
+            }
         }
     }
 }
