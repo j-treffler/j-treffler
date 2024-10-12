@@ -1,0 +1,126 @@
+<!DOCTYPE HTML>
+<!--
+	Editorial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+<head>
+    <title>Verben Trainer</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="../assets/css/main.css" />
+</head>
+<body class="is-preload">
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+    <!-- Main -->
+    <div id="main">
+        <div class="inner">
+
+            <!-- Content -->
+            <section>
+
+                <div>
+                    <form action="#">
+                        <div class="row gtr-uniform">
+                            <!--<div class="col-4 col-12-xsmall">
+                                <select name="languageOptions" id="languageOptions" required>
+                                    <option value="">- Sprache -</option>
+                                    <option value="0">Spanisch</option>
+                                    <option value="1">Italienisch</option>
+                                    <option value="2">Portugiesisch</option>
+                                </select>
+                            </div>-->
+                            <div class="col-4 col-12-xsmall">
+                                <p name="languageField" id="languageField">Sprache<p/>
+                            </div>
+                            <div class="col-4 col-12-xsmall">
+                                <p name="personField" id="personField">Person<p/>
+                            </div>
+                            <div class="col-4 col-12-xsmall">
+                                <p name="verbField" id="verbField">Verb<p/>
+                            </div>
+                            <!-- Break -->
+                            <div class="col-12">
+                                <button id="shuffleBtn" type="button" onclick="shuffle()">mischen</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </section>
+            <!--<section>
+                <form action="#">
+                    <div><h4>Optionen:</h4></div>
+                    <div class="col gtr-uniform">
+                        <div class="col-6 col-12-small">
+                            <input type="checkbox" id="languageCbx" name="languageCbx" checked>
+                            <label for="languageCbx">Sprache manuell wählen</label>
+                        </div>
+                        <div class="col-6 col-12-small">
+                            <input type="checkbox" id="personCbx" name="personCbx">
+                            <label for="personCbx">Person manuell wählen</label>
+                        </div>
+                    </div>
+                </form>
+            </section>-->
+        </div>
+    </div>
+
+</div>
+
+<!-- Scripts -->
+<script src="../assets/js/jquery.min.js"></script>
+<script src="../assets/js/browser.min.js"></script>
+<script src="../assets/js/breakpoints.min.js"></script>
+<script src="../assets/js/util.js"></script>
+<script src="../assets/js/main.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+
+        var verbs = [];
+
+    function shuffle(){
+        shuffleLanguages()
+        shufflePersons();
+        shuffleVerbs();
+    }
+
+    function shuffleLanguages(){
+        const languages = ["Spanisch","Italienisch","Portugiesisch"];
+        document.getElementById("languageField").innerHTML = languages[Math.floor(Math.random() * languages.length)];
+    }
+
+    function shufflePersons(){
+        const persons = ["1. Pers. Sg.","2. Pers. Sg.","3. Pers. Sg.","1. Pers. Pl.","2. Pers. Pl.","3. Pers. Pl."];
+        document.getElementById("personField").innerHTML = persons[Math.floor(Math.random() * persons.length)];
+    }
+
+    function shuffleVerbs(){
+        var verbId = Math.floor(Math.random() * verbs.length);
+        console.log(verbId);
+        document.getElementById("verbField").innerHTML = verbs[verbId];
+    }
+
+    $(document).ready(function() {
+    $.ajax({
+        type: "GET",
+        url: "verbs.csv",
+        dataType: "text",
+        success: function(data) {processData(data);}
+        });
+
+    // Let's process the data from the data file
+    function processData(data) {
+        var lines = data.split('\n');
+
+        for (var i=0; i<lines.length; ++i) {
+           verbs.push(lines[i]); // Read in as string
+           console.log(lines[i]+'\n');
+        }
+    }})
+</script>
+</body>
+</html>
