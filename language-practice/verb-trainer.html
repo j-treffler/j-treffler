@@ -26,18 +26,29 @@
                 <div>
                     <form action="#">
                         <div class="row gtr-uniform">
-                            <!--<div class="col-4 col-12-xsmall">
+                            <div class="col-4 col-12-xsmall" id="languageOptionsDiv" style="display:none">
                                 <select name="languageOptions" id="languageOptions" required>
                                     <option value="">- Sprache -</option>
                                     <option value="0">Spanisch</option>
                                     <option value="1">Italienisch</option>
                                     <option value="2">Portugiesisch</option>
                                 </select>
-                            </div>-->
-                            <div class="col-4 col-12-xsmall">
+                            </div>
+                            <div class="col-4 col-12-xsmall" id="languageFieldDiv">
                                 <p name="languageField" id="languageField">Sprache<p/>
                             </div>
-                            <div class="col-4 col-12-xsmall">
+                            <div class="col-4 col-12-xsmall" id="personOptionsDiv" style="display:none">
+                                <select name="languageOptions" id="personOptions" required>
+                                    <option value="">- Person -</option>
+                                    <option value="0">1. Pers. Sg.</option>
+                                    <option value="1">2. Pers. Sg.</option>
+                                    <option value="2">3. Pers. Sg.</option>
+                                    <option value="3">1. Pers. Pl.</option>
+                                    <option value="4">2. Pers. Pl.</option>
+                                    <option value="5">3. Pers. Pl.</option>
+                                </select>
+                            </div>
+                            <div class="col-4 col-12-xsmall" id="personFieldDiv">
                                 <p name="personField" id="personField">Person<p/>
                             </div>
                             <div class="col-4 col-12-xsmall">
@@ -51,21 +62,21 @@
                     </form>
                 </div>
             </section>
-            <!--<section>
+            <section>
                 <form action="#">
                     <div><h4>Optionen:</h4></div>
                     <div class="col gtr-uniform">
                         <div class="col-6 col-12-small">
-                            <input type="checkbox" id="languageCbx" name="languageCbx" checked>
+                            <input type="checkbox" id="languageCbx" name="languageCbx" checked onchange="switchLanguageOptions()">
                             <label for="languageCbx">Sprache manuell wählen</label>
                         </div>
                         <div class="col-6 col-12-small">
-                            <input type="checkbox" id="personCbx" name="personCbx">
+                            <input type="checkbox" id="personCbx" name="personCbx" onchange="switchPersonOptions()">
                             <label for="personCbx">Person manuell wählen</label>
                         </div>
                     </div>
                 </form>
-            </section>-->
+            </section>
         </div>
     </div>
 
@@ -104,6 +115,30 @@
         document.getElementById("verbField").innerHTML = verbs[verbId];
     }
 
+    function switchLanguageOptions(){
+        var languageField = document.getElementById("languageFieldDiv");
+        var languageOptions = document.getElementById("languageOptionsDiv");
+        if(document.getElementById("languageCbx").checked){
+            languageOptions.style.display = "block";
+            languageField.style.display = "none";
+        }else{
+            languageOptions.style.display = "none";
+            languageField.style.display = "block";
+        }
+    }
+
+    function switchPersonOptions(){
+        var personField = document.getElementById("personFieldDiv");
+        var personOptions = document.getElementById("personOptionsDiv");
+        if(document.getElementById("personCbx").checked){
+            personOptions.style.display = "block";
+            personField.style.display = "none";
+        }else{
+            personOptions.style.display = "none";
+            personField.style.display = "block";
+        }
+    }
+
     $(document).ready(function() {
     $.ajax({
         type: "GET",
@@ -112,13 +147,11 @@
         success: function(data) {processData(data);}
         });
 
-    // Let's process the data from the data file
     function processData(data) {
         var lines = data.split('\n');
 
         for (var i=0; i<lines.length; ++i) {
-           verbs.push(lines[i]); // Read in as string
-           console.log(lines[i]+'\n');
+           verbs.push(lines[i]);
         }
     }})
 </script>
