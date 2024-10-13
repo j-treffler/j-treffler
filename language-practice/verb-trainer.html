@@ -67,7 +67,7 @@
                     <div><h4>Optionen:</h4></div>
                     <div class="col gtr-uniform">
                         <div class="col-6 col-12-small">
-                            <input type="checkbox" id="languageCbx" name="languageCbx" checked onchange="switchLanguageOptions()">
+                            <input type="checkbox" id="languageCbx" name="languageCbx" onchange="switchLanguageOptions()">
                             <label for="languageCbx">Sprache manuell wählen</label>
                         </div>
                         <div class="col-6 col-12-small">
@@ -152,6 +152,7 @@
 
         for (var i=0; i<lines.length; ++i) {
            verbs.push(lines[i]);
+           console.log(lines[i]);
         }
     }})
 </script>
