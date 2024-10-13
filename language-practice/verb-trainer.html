@@ -7,9 +7,9 @@
 <html>
 <head>
     <title>Verben Trainer</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-    <link rel="stylesheet" href="../assets/css/main.css" />
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <link rel="stylesheet" href="../assets/css/main.css"/>
 </head>
 <body class="is-preload">
 
@@ -21,8 +21,13 @@
         <div class="inner">
 
             <!-- Content -->
-            <section>
-
+            <section id="fileInput">
+                <div class="col-12">
+                    <p>Verben Liste auswählen:</p>
+                    <input type="file" onchange="handleFiles(this.files)" accept=".csv">
+                </div>
+            </section>
+            <section id="verb-trainer" style="display:none">
                 <div>
                     <form action="#">
                         <div class="row gtr-uniform">
@@ -35,7 +40,8 @@
                                 </select>
                             </div>
                             <div class="col-4 col-12-xsmall" id="languageFieldDiv">
-                                <p name="languageField" id="languageField">Sprache<p/>
+                                <p name="languageField" id="languageField">Sprache
+                                <p/>
                             </div>
                             <div class="col-4 col-12-xsmall" id="personOptionsDiv" style="display:none">
                                 <select name="languageOptions" id="personOptions" required>
@@ -49,10 +55,12 @@
                                 </select>
                             </div>
                             <div class="col-4 col-12-xsmall" id="personFieldDiv">
-                                <p name="personField" id="personField">Person<p/>
+                                <p name="personField" id="personField">Person
+                                <p/>
                             </div>
                             <div class="col-4 col-12-xsmall">
-                                <p name="verbField" id="verbField">Verb<p/>
+                                <p name="verbField" id="verbField">Verb
+                                <p/>
                             </div>
                             <!-- Break -->
                             <div class="col-12">
@@ -62,12 +70,13 @@
                     </form>
                 </div>
             </section>
-            <section>
+            <section id="options" style="display:none">
                 <form action="#">
                     <div><h4>Optionen:</h4></div>
                     <div class="col gtr-uniform">
                         <div class="col-6 col-12-small">
-                            <input type="checkbox" id="languageCbx" name="languageCbx" onchange="switchLanguageOptions()">
+                            <input type="checkbox" id="languageCbx" name="languageCbx"
+                                   onchange="switchLanguageOptions()">
                             <label for="languageCbx">Sprache manuell wählen</label>
                         </div>
                         <div class="col-6 col-12-small">
@@ -91,7 +100,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 
-        var verbs = [];
+    var verbs = [];
 
     function shuffle(){
         shuffleLanguages()
@@ -111,7 +120,6 @@
 
     function shuffleVerbs(){
         var verbId = Math.floor(Math.random() * verbs.length);
-        console.log(verbId);
         document.getElementById("verbField").innerHTML = verbs[verbId];
     }
 
@@ -139,22 +147,28 @@
         }
     }
 
-    $(document).ready(function() {
-    $.ajax({
-        type: "GET",
-        url: "verbs.csv",
-        dataType: "text",
-        success: function(data) {processData(data);}
-        });
+    function handleFiles(files) {
+        getAsText(files[0])
+        document.getElementById("fileInput").style.display = "none";
+        document.getElementById("verb-trainer").style.display = "block";
+        document.getElementById("options").style.display = "block";
+    }
+
+    function getAsText(fileToRead) {
+        const reader = new FileReader()
+        reader.readAsText(fileToRead)
+        reader.onload = (event) => processData(event.target.result)
+    }
 
     function processData(data) {
         var lines = data.split('\n');
 
         for (var i=0; i<lines.length; ++i) {
            verbs.push(lines[i]);
-           console.log(lines[i]);
         }
-    }})
+    }
+
+
 </script>
 </body>
 </html>
